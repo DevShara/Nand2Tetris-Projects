@@ -6,7 +6,7 @@
 /**
  * A 16-bit counter with load and reset control bits.
  * if      (reset[t] == 1) out[t+1] = 0
- * else if (load[t] == 1)  out[t+1] = in[t]
+ * else if (load[t] == 1)  out[t+1] = in[t] //Same as a Register
  * else if (inc[t] == 1)   out[t+1] = out[t] + 1  (integer addition)
  * else                    out[t+1] = out[t]
  */
@@ -16,5 +16,88 @@ CHIP PC {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+
+    Inc16(in=regOut, out=InregOut);
+    Mux16(a=regOut, b=InregOut, sel=inc, out=incOut);
+
+    Mux16(a=incOut, b=in, sel=load, out=loadOut);
+
+    Mux16(a=loadOut, b[0..15]=false, sel=reset, out=resOut);
+
+    Register(in=resOut, load=true, out=regOut, out=out);
+    //Inc16(in=regOut, out=InregOut);
+     //Mux8Way16(a=false, b=false, c=InregOut, d=false, e=regOut, f=false, g=false, h=false, sel=[load, reset, inc], out=out);
+
+    
+
+   
+    
 }
+
+
+    // const Register = function(in, load){
+    //     let out;
+
+    //     if(load){
+    //          out =  in[t-1]
+    //     }else{
+    //          out = out[t-1]
+    //     }
+    //     return out
+    // }
+
+
+    // const Counter = function(in, reset, load, inc){
+    //     let out;
+    //     let regIn;
+    //     let sel;
+
+    //     if(load){
+    //         regIn = in
+    //         sel = load
+
+    //     }else if(reset){
+    //         regIn = 0
+    //         sel = reset
+
+    //     }else if(inc){
+    //         if(out){
+    //          regIn = out + 1
+    //         }else{
+    //          regIn = 0 + 1
+
+    //         }
+    //          sel = inc
+    //     }
+
+    //     out = Register(regIn, sel)
+
+    //     return out
+    // }
+
+    // Counter(in, 1, 0, 0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //IF LOAD == 1
+    // Mux16(a=false, b=RegOut, sel=load, out=loadOut);
+
+    // DMux4Way(in=, sel=load, a=, b=, c=, d=);
+
+    // Mux8Way16(a=, b=, c=, d=, e=, f=, g=, h=, sel=load,inc,reset, out=);
+
+
+
+
+
