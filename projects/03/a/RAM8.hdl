@@ -15,5 +15,40 @@ CHIP RAM8 {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    Register(in=in, load=R1is, out=R1);
+    Register(in=in, load=R2is, out=R2);
+    Register(in=in, load=R3is, out=R3);
+    Register(in=in, load=R4is, out=R4);
+    Register(in=in, load=R5is, out=R5);
+    Register(in=in, load=R6is, out=R6);
+    Register(in=in, load=R7is, out=R7);
+    Register(in=in, load=R8is, out=R8);
+
+    //IF LOAD IS ASSERTED
+    DMux8Way(in=load, sel=address, a=R1is, b=R2is, c=R3is, d=R4is, e=R5is, f=R6is, g=R7is, h=R8is);
+    // if load select address register and input 16in else do nothing
+
+
+    //IF LOAD IS NOT ASSERTED
+    Mux8Way16(a=R1, b=R2, c=R3, d=R4, e=R5, f=R6, g=R7, h=R8, sel=address, out=out);
+    // get selected address's value
+
+
+    // Mux16(a=Rout, b=in, sel=load, out=out);
+
+
+
+    
+    // const registers = []; //8 registers
+    // const register_address = 1; //3 bit input
+    // const input = in; //16 bit input
+
+    // if(load == 1){
+    //     let sel_register = registers[register_address];
+    //     sel_register = in;
+    //     out+1 = sel_register; 
+    // }else{
+    //     out = registers[register_address] //pipe register number address as RAM's output
+    // }
+    //     //We can do it using one of the combinational chips built in project 1
 }

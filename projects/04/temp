@@ -9,50 +9,66 @@
 // This program only needs to handle arguments that satisfy
 // R0 >= 0, R1 >= 0, and R0*R1 < 32768.
 
-
-//sum=0
 //R0 >= 0
 //R1 >= 0
 //R0*R1 < 32768
-//sum = R0 + R1
 //R2 = R0 * R1
 
-
 // Put your code here.
-    @R2
+    @i
     M=0
 
-    //if (R0 < 0)
+    @sum
+    M=0
+    
+  
+   
+(LOOP)
+       //if (R0 < 0)
     @R0
     D=M 
     @END
-    D;JEQ   
+    D;JLT
 
     //if (R1 < 0)
     @R1  //M=4
     D=M // D=4
     @END
-    D;JEQ
+    D;JLT
 
-    @R0
-    D=M
-    @R3
-    M=D
- 
-(LOOP)
+    //if(R0*R1 < 32768) goto STOP
+    @sum
+    D=M //32767
+    @32768
+    D=A-D // 32767-32768=1
+    @STOP
+    D;JLT
+   
+    // R2 = R0 * R1 
+    @i //6
+    D=M //D=0
+    @R0 //6
+    D=D-M //D=0-6
+    @STOP
+    D;JLT
+    
     @R1
     D=M
+    D=D+M
+    @sum
+    M=D
+    
+    @i
+    M=M+1
 
-    @R2
-    M=D+M
-
-    @R3
-    M=M-1
-
-    D=M
     @LOOP
-    D;JGT
-  
+    0;JMP
+
+(STOP)
+    @sum
+    D=M
+    @R2
+    M=D 
 (END)
     @END
     0;JMP
